@@ -1,21 +1,15 @@
+export const sum = (array: number[]): number => array.reduce((a, b) => a + b);
+export const compareDesc = (a: number, b: number) => b - a
+
 export function day1(input) {
-    const lines = input.split('\n');
-    let total = 0;
-    const elves: number[] = [];
+    const groups = input.trim().split('\n\n');
+    const elves = groups.map(group => {
+        const lines = group.split('\n');
+        const integers = lines.map(line => parseInt(line));
+        const total = sum(integers);
+        return total;
+    });
 
-    for (const line of lines) {
-        if (line === '') {
-            elves.push(total);
-            total = 0;
-            continue;
-        }
-
-        total += parseInt(line);
-    }
-    if (total > 0) {
-        elves.push(total);
-    }
-
-    elves.sort((a, b) => b - a);
-    return [elves[0], elves.slice(0, 3).reduce((a, b) => a + b)];
+    elves.sort(compareDesc);
+    return [elves[0], sum(elves.slice(0, 3))];
 }
