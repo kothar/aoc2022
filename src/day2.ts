@@ -1,52 +1,63 @@
 import { sum } from './day1';
 
 const shapeScores = {
-    X: 1,
-    Y: 2,
-    Z: 3
+    Rock: 1,
+    Paper: 2,
+    Scissors: 3
 }
 
 const outcomeScores = {
-    X: 0,
-    Y: 3,
-    Z: 6
+    Lose: 0,
+    Draw: 3,
+    Win: 6
 }
 
-const part1Strategy = {
-    'A X': 3,
-    'A Y': 6,
-    'A Z': 0,
-    'B X': 0,
-    'B Y': 3,
-    'B Z': 6,
-    'C X': 6,
-    'C Y': 0,
-    'C Z': 3
+const outcome: Record<string, Record<string, string>> = {
+    'Rock': { 'Rock': 'Draw', 'Paper': 'Win', 'Scissors': 'Lose' },
+    'Paper': { 'Rock': 'Lose', 'Paper': 'Draw', 'Scissors': 'Win' },
+    'Scissors': { 'Rock': 'Win', 'Paper': 'Lose', 'Scissors': 'Draw' }
 }
 
-const part2Strategy = {
-    'A X': 3,
-    'A Y': 1,
-    'A Z': 2,
-    'B X': 1,
-    'B Y': 2,
-    'B Z': 3,
-    'C X': 2,
-    'C Y': 3,
-    'C Z': 1
+const playMapping = {
+    A: 'Rock',
+    B: 'Paper',
+    C: 'Scissors',
+}
+
+const part1Mapping = {
+    X: 'Rock',
+    Y: 'Paper',
+    Z: 'Scissors'
+}
+
+const part2Mapping = {
+    X: 'Lose',
+    Y: 'Draw',
+    Z: 'Win'
 }
 
 export function day2(input) {
     const lines = input.trim().split('\n');
     const part1Scores = lines.map(line => {
         const actions = line.split(' ');
-        return part1Strategy[line] + shapeScores[actions[1]];
+        const theirShape = playMapping[actions[0]];
+        const yourShape = part1Mapping[actions[1]];
+        return outcomeScores[outcome[theirShape][yourShape]] + shapeScores[yourShape];
     });
     const part1 = sum(part1Scores);
 
     const part2Scores = lines.map(line => {
         const actions = line.split(' ');
-        return part2Strategy[line] + outcomeScores[actions[1]];
+        const theirShape = playMapping[actions[0]];
+        const desiredOutcome = part2Mapping[actions[1]];
+        const outcomes = outcome[theirShape];
+        let yourShape: string;
+        for (const shape in outcomes) {
+            if (outcomes[shape] === desiredOutcome) {
+                yourShape = shape;
+            }
+        }
+        return outcomeScores[outcome[theirShape][yourShape]] + shapeScores[yourShape];
     });
     const part2 = sum(part2Scores);
 
