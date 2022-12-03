@@ -7,6 +7,10 @@ function priority(char: string) {
     return char.charCodeAt(0) - 'A'.charCodeAt(0) + 27;
 }
 
+function sampleOne<T>(set: Set<T>): T {
+    return set.values().next().value;
+}
+
 export function chunk<T>(array: T[], chunkSize: number): T[][] {
     return array.reduce((chunks, element) => {
         let chunk = chunks.pop();
@@ -20,14 +24,6 @@ export function chunk<T>(array: T[], chunkSize: number): T[][] {
     }, [[]]);
 }
 
-export interface Set<T> {
-    get length(): number
-
-    includes(element: T): boolean
-
-    forEach(fn: (element: T) => void)
-}
-
 export function toSet<T>(elements: T | T[]): Set<T> {
     if (typeof elements === 'string') {
         elements = elements.split('') as T[];
@@ -35,19 +31,14 @@ export function toSet<T>(elements: T | T[]): Set<T> {
         elements = [elements];
     }
 
-    return elements.sort().reduce((set, currentValue, index) => {
-        if (index == 0 || elements[index - 1] !== currentValue) {
-            set.push(currentValue);
-        }
-        return set;
-    }, [] as T[]);
+    return new Set(elements);
 }
 
 export function intersection<T>(...[firstSet, ...otherSets]: Set<T>[]): Set<T> {
-    const result: T[] = [];
+    const result = new Set<T>();
     firstSet.forEach(element => {
-        if (otherSets.every(set => set.includes(element))) {
-            result.push(element);
+        if (otherSets.every(set => set.has(element))) {
+            result.add(element);
         }
     });
     return result;
@@ -60,7 +51,7 @@ export function day3(input: string) {
         const a = toSet(line.slice(0, half));
         const b = toSet(line.slice(half));
         const i = intersection(a, b);
-        return priority(i[0]);
+        return priority(sampleOne(i));
     });
     const part1 = sum(part1Priorities);
 
@@ -68,7 +59,7 @@ export function day3(input: string) {
     const groups = chunk(sets, 3);
     const part2Priorities = groups.map((group) => {
         const i = intersection(...group);
-        return priority(i[0]);
+        return priority(sampleOne(i));
     });
     const part2 = sum(part2Priorities);
     return [part1, part2];

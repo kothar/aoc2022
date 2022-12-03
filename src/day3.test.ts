@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import { day2 } from './day2';
 import { chunk, day3, intersection, toSet } from './day3';
 
 describe('chunk', () => {
@@ -25,45 +24,45 @@ describe('set', () => {
     test('convert from string', () => {
         const set = toSet('abbc');
 
-        expect(set).toHaveLength(3);
-        expect(set.includes('a')).toBeTruthy();
-        expect(set.includes('b')).toBeTruthy();
-        expect(set.includes('c')).toBeTruthy();
-        expect(set.includes('d')).toBeFalsy();
+        expect(set.size).toEqual(3);
+        expect(set.has('a')).toBeTruthy();
+        expect(set.has('b')).toBeTruthy();
+        expect(set.has('c')).toBeTruthy();
+        expect(set.has('d')).toBeFalsy();
     });
     test('convert from number', () => {
         const set = toSet(1);
 
-        expect(set).toHaveLength(1);
-        expect(set.includes(1)).toBeTruthy();
-        expect(set.includes(2)).toBeFalsy();
+        expect(set.size).toEqual(1);
+        expect(set.has(1)).toBeTruthy();
+        expect(set.has(2)).toBeFalsy();
     });
     test('convert from array', () => {
         const set = toSet([1,2,2,3]);
 
-        expect(set).toHaveLength(3);
-        expect(set.includes(1)).toBeTruthy();
-        expect(set.includes(2)).toBeTruthy();
-        expect(set.includes(3)).toBeTruthy();
-        expect(set.includes(4)).toBeFalsy();
+        expect(set.size).toEqual(3);
+        expect(set.has(1)).toBeTruthy();
+        expect(set.has(2)).toBeTruthy();
+        expect(set.has(3)).toBeTruthy();
+        expect(set.has(4)).toBeFalsy();
     });
 
     test('intersection', () => {
-        const a = [1, 2, 3];
-        const b = [2, 3, 4];
+        const a = new Set([1, 2, 3]);
+        const b = new Set([2, 3, 4]);
         const i = intersection(a, b);
 
-        expect(i).toHaveLength(2);
-        expect(i.includes(1)).toBeFalsy();
-        expect(i.includes(2)).toBeTruthy();
-        expect(i.includes(3)).toBeTruthy();
-        expect(i.includes(4)).toBeFalsy();
-        expect(i.includes(5)).toBeFalsy();
+        expect(i.size).toEqual(2);
+        expect(i.has(1)).toBeFalsy();
+        expect(i.has(2)).toBeTruthy();
+        expect(i.has(3)).toBeTruthy();
+        expect(i.has(4)).toBeFalsy();
+        expect(i.has(5)).toBeFalsy();
     });
 
     test('iteration', () => {
-        const a = [1, 2, 3];
-        const b = [2, 3, 4];
+        const a = new Set([1, 2, 3]);
+        const b = new Set([2, 3, 4]);
         const i = intersection(a, b);
 
         const elements = [];
