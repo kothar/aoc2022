@@ -1,3 +1,5 @@
+import { sum } from './day1';
+
 export function max(values: number[]): number {
     return values.reduce((prev, current) => Math.max(prev, current), 0);
 }
@@ -8,7 +10,7 @@ export function day8(input: string) {
 
     const minimumApproachHeights = trees.map(row => {
         let max = -1;
-        return row.map((value, index) => {
+        return row.map((value) => {
             const oldMax = max;
             max = Math.max(max, value);
             return oldMax;
@@ -34,16 +36,8 @@ export function day8(input: string) {
         }
     }
 
-    let part1 = 0;
-    const map = trees.map((row, rowIndex) => {
-        return row.map((height, colIndex) => {
-            let visible = height > minimumApproachHeights[rowIndex][colIndex];
-            if (visible) {
-                part1 += 1;
-            }
-            return `${visible ? '_' : 'H'}`;
-        }).join(' ');
-    });
+    let part1 = sum(trees.flatMap((row, rowIndex) => row
+        .map((height, colIndex) => height > minimumApproachHeights[rowIndex][colIndex] ? 1 : 0)));
 
     function scenicScore(height: number, row: number, col: number): number {
         let numCols = trees[0].length;
