@@ -5,6 +5,10 @@ export class Vector {
     }
 }
 
+export function clamp(x, min = -1, max = 1) {
+    return Math.min(Math.max(x, min), max);
+}
+
 export class State {
 
     visited = new Set<string>();
@@ -36,16 +40,8 @@ export class State {
     updateTail(head: Vector) {
         this.head = head;
         if (this.maxDistance() > 1) {
-            if (this.head.x > this.tail.x) {
-                this.tail.x += 1
-            } else if (this.head.x < this.tail.x) {
-                this.tail.x -= 1
-            }
-            if (this.head.y > this.tail.y) {
-                this.tail.y += 1
-            } else if (this.head.y < this.tail.y) {
-                this.tail.y -= 1
-            }
+            this.tail.x += clamp(this.head.x - this.tail.x);
+            this.tail.y += clamp(this.head.y - this.tail.y);
             this.visited.add(JSON.stringify(this.tail));
             this.nextState?.updateTail(this.tail);
         }
