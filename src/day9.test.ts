@@ -49,12 +49,12 @@ D 10
 L 25
 U 20
 `);
-    expect(result).toEqual([13, 36]);
+    expect(result).toEqual([88, 36]);
 });
 
 test('Puzzle input', () => {
     const buffer = fs.readFileSync('src/day9.txt');
     const result = day9(buffer.toString());
 
-    expect(result).toEqual([1851, 6999588]);
+    expect(result).toEqual([6503, 2724]);
 })

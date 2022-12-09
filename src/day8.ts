@@ -4,6 +4,10 @@ export function max(values: number[]): number {
     return values.reduce((prev, current) => Math.max(prev, current), 0);
 }
 
+export function min(values: number[]): number {
+    return values.reduce((prev, current) => Math.min(prev, current), 0);
+}
+
 export function day8(input: string) {
     const trees = input.trim().split('\n')
         .map(line => line.split('').map(value => parseInt(value)));
