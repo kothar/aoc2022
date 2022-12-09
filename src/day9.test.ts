@@ -1,25 +1,25 @@
 import * as fs from 'fs';
-import { day9, State } from './day9';
+import { day9, State, Vector } from './day9';
 
 describe('applyMove', () => {
     test('moves up', () => {
-        expect(new State({ x: 0, y: 1 }, { x: 0, y: 0 }).applyMove({ x: 0, y: 1 }, 1))
+        expect(new State(new Vector(0, 1)).applyMove({ x: 0, y: 1 }, 1))
             .toEqual([{ x: 0, y: 2 }, { x: 0, y: 1 }]);
     })
     test('moves down', () => {
-        expect(new State({ x: 0, y: -1 }, { x: 0, y: 0 }).applyMove({ x: 0, y: -1 }, 1))
+        expect(new State(new Vector(0, -1)).applyMove({ x: 0, y: -1 }, 1))
             .toEqual([{ x: 0, y: -2 }, { x: 0, y: -1 }]);
     })
     test('moves right', () => {
-        expect(new State({ x: 1, y: 0 }, { x: 0, y: 0 }).applyMove({ x: 1, y: 0 }, 1))
+        expect(new State(new Vector(1)).applyMove({ x: 1, y: 0 }, 1))
             .toEqual([{ x: 2, y: 0 }, { x: 1, y: 0 }]);
     })
     test('moves left', () => {
-        expect(new State({ x: -1, y: 0 }, { x: 0, y: 0 }).applyMove({ x: -1, y: 0 }, 1))
+        expect(new State(new Vector(-1)).applyMove({ x: -1, y: 0 }, 1))
             .toEqual([{ x: -2, y: 0 }, { x: -1, y: 0 }]);
     })
     test('moves up+right', () => {
-        expect(new State({ x: 1, y: 1 }, { x: 0, y: 0 }).applyMove({ x: 0, y: 1 }, 1))
+        expect(new State(new Vector(1, 1)).applyMove({ x: 0, y: 1 }, 1))
             .toEqual([{ x: 1, y: 2 }, { x: 1, y: 1 }]);
     })
 })

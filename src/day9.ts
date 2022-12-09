@@ -1,15 +1,15 @@
 import { max, min } from './day8';
 
-export type Position = { x: number, y: number };
+export class Vector {
+    constructor(public x = 0, public y = 0) {
+    }
+}
 
 export class State {
 
     visited = new Set<string>();
 
-    constructor(public head: Position = { x: 0, y: 0 }, public tail: Position = {
-        x: 0,
-        y: 0
-    }, public nextState?: State) {
+    constructor(public head = new Vector(), public tail = new Vector(), public nextState?: State) {
         this.visited.add(JSON.stringify(tail));
     }
 
@@ -24,7 +24,7 @@ export class State {
         );
     }
 
-    applyMove({ x, y }: Position, distance: number) {
+    applyMove({ x, y }: Vector, distance: number) {
         for (let step = 0; step < distance; step++) {
             this.head.x += x;
             this.head.y += y;
@@ -33,7 +33,7 @@ export class State {
         return [this.head, this.tail];
     }
 
-    updateTail(head: Position) {
+    updateTail(head: Vector) {
         this.head = head;
         if (this.maxDistance() > 1) {
             if (this.head.x > this.tail.x) {
@@ -87,23 +87,23 @@ export function day9(input: string) {
 
     const states: State[] = [];
     for (let s = 0; s < 9; s++) {
-        const state = new State({ x: 0, y: 0 }, { x: 0, y: 0 }, states[0]);
+        const state = new State(new Vector(), new Vector(), states[0]);
         states.unshift(state);
     }
 
     for (const move of moves) {
         switch (move.direction) {
             case 'U':
-                states[0].applyMove({ x: 0, y: 1 }, move.distance);
+                states[0].applyMove(new Vector(0, 1), move.distance);
                 break;
             case 'D':
-                states[0].applyMove({ x: 0, y: -1 }, move.distance);
+                states[0].applyMove(new Vector(0, -1), move.distance);
                 break;
             case 'L':
-                states[0].applyMove({ x: -1, y: 0 }, move.distance);
+                states[0].applyMove(new Vector(-1), move.distance);
                 break;
             case 'R':
-                states[0].applyMove({ x: 1, y: 0 }, move.distance);
+                states[0].applyMove(new Vector(1), move.distance);
                 break;
         }
         // printState(move, states);
