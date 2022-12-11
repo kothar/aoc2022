@@ -1,26 +1,5 @@
-import { compareDesc, day1, sum } from './day1';
+import { day1 } from './day1';
 import * as fs from 'fs';
-
-describe('sum', () => {
-    test('adds integers', () => {
-        expect(sum([1, 2, 3])).toEqual(6);
-    });
-    test('adds floats', () => {
-        expect(sum([1.1, 2.2, 3.3])).toEqual(6.6);
-    });
-})
-
-describe('compareDesc', () => {
-    test('gt', () => {
-        expect(compareDesc(5, 8)).toBeGreaterThan(0);
-    });
-    test('lt', () => {
-        expect(compareDesc(100, 3)).toBeLessThan(0);
-    });
-    test('eq', () => {
-        expect(compareDesc(33, 33)).toEqual(0);
-    });
-});
 
 test('Day 1 example', () => {
     const result = day1(`1000

@@ -1,4 +1,4 @@
-import { CPU, parseInstruction } from './cpu/cpu';
+import { CPU, parseInstruction } from './lib/cpu';
 
 export function day10(input: string) {
     const instructions = input.trim().split('\n')

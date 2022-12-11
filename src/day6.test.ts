@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import { day6, markerPosition, unique } from './day6';
+import { day6, markerPosition } from './day6';
+import { unique } from './lib/sets';
 
 describe('unique', () => {
     test('empty', () => {

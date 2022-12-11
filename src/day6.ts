@@ -1,4 +1,4 @@
-import { toSet } from './day3';
+import { unique } from './lib/sets';
 
 export function markerPosition(packet: string, markerSize: number, test: (range: string) => boolean): number {
     for (let index = markerSize; index <= packet.length; index += 1) {
@@ -7,10 +7,6 @@ export function markerPosition(packet: string, markerSize: number, test: (range:
         }
     }
     return -1;
-}
-
-export function unique(range: string): boolean {
-    return toSet(range).size === range.length;
 }
 
 export function day6(input: string) {

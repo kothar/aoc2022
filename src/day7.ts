@@ -1,4 +1,4 @@
-import { sum } from './day1';
+import { sum } from './lib/util';
 
 export function day7(input: string) {
     const lines = input.split('\n');

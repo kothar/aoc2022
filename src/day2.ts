@@ -1,4 +1,4 @@
-import { sum } from './day1';
+import { sum } from './lib/util';
 
 const shapeScores = {
     Rock: 1,

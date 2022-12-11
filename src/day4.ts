@@ -1,3 +1,5 @@
+import { int } from './lib/util';
+
 function contains([a, b]: number[], [c, d]: number[]): boolean {
     return a <= c && b >= d;
 }
@@ -13,7 +15,7 @@ export function day4(input: string) {
         return line.split(',')
             .map(pair => {
                 let range = pair.split('-');
-                return range.map(x => parseInt(x));
+                return range.map(int);
             });
     });
 

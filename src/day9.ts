@@ -1,12 +1,8 @@
-import { max, min } from './day8';
+import { clamp, max, min } from './lib/util';
 
 export class Vector {
     constructor(public x = 0, public y = 0) {
     }
-}
-
-export function clamp(x, min = -1, max = 1) {
-    return Math.min(Math.max(x, min), max);
 }
 
 export class State {
@@ -68,9 +64,8 @@ function printState(move, states: State[]) {
     }
 
     [...states].reverse().forEach((state, index) => {
-        const symbol = index == 0 ? 'H' : index.toString();
-        const currentSymbol = grid[state.head.y - minY][state.head.x - minX];
-        grid[state.head.y - minY][state.head.x - minX] = symbol;
+        grid[state.head.y - minY][state.head.x - minX] =
+            index == 0 ? 'H' : index.toString();
     });
 
     console.log(move, '\n', grid.map(row => row.join('')).reverse().join('\n'));
