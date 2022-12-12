@@ -1,9 +1,5 @@
 import { clamp, max, min } from './lib/util';
-
-export class Vector {
-    constructor(public x = 0, public y = 0) {
-    }
-}
+import { Vector } from './lib/vector';
 
 export class State {
 
@@ -13,15 +9,9 @@ export class State {
         this.visited.add(JSON.stringify(tail));
     }
 
-    distance(a, b) {
-        return b - a;
-    }
-
     maxDistance() {
-        return Math.max(
-            Math.abs(this.distance(this.head.x, this.tail.x)),
-            Math.abs(this.distance(this.head.y, this.tail.y))
-        );
+        const distance = this.tail.sub(this.head).abs();
+        return Math.max(distance.x, distance.y);
     }
 
     applyMove({ x, y }: Vector, distance: number) {

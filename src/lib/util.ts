@@ -7,7 +7,7 @@ export const max = (values: number[]): number =>
     values.reduce((prev, current) => Math.max(prev, current), 0);
 
 export const min = (values: number[]): number =>
-    values.reduce((prev, current) => Math.min(prev, current), 0);
+    values.reduce((prev, current) => Math.min(prev, current), values[0]);
 
 export const compareDesc = (a: number, b: number) => b - a
 

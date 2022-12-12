@@ -3,14 +3,18 @@ import { day12 } from './day12';
 
 test('Example 1', () => {
     const result = day12(`
-
+Sabqponm
+abcryxxl
+accszExk
+acctuvwj
+abdefghi
 `);
-    expect(result).toEqual([10605, 2713310158]);
+    expect(result).toEqual([31, 29]);
 });
 
 test('Puzzle input', () => {
     const buffer = fs.readFileSync('src/day12.txt');
     const result = day12(buffer.toString());
 
-    expect(result).toEqual([54752, 0]);
+    expect(result).toEqual([391, 386]);
 });
