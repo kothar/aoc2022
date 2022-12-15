@@ -1,3 +1,5 @@
+import { clamp } from './util'
+
 export class Vector {
     constructor(public x = 0, public y = 0) {
     }
@@ -16,5 +18,17 @@ export class Vector {
 
     lookup<T>(map: T[][]) {
         return map[this.y][this.x];
+    }
+
+    equals(v: Vector) {
+        return this.x === v.x && this.y === v.y;
+    }
+
+    unitDirection(v: Vector) {
+        return v.sub(this).clamp(-1, 1);
+    }
+
+    clamp(min: number, max: number) {
+        return new Vector(clamp(this.x, min, max), clamp(this.y, min, max))
     }
 }
