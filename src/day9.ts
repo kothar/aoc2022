@@ -64,7 +64,7 @@ function printState(move, states: State[]) {
 export function day9(input: string) {
     const moves = input.trim().split('\n')
         .map(line => line.split(' '))
-        .map(([direction, distance]) => ({ direction, distance: parseInt(distance) }));
+        .map(([direction, distance]) => ({ direction, manhattan: parseInt(distance) }));
 
     const states: State[] = [];
     for (let s = 0; s < 9; s++) {
@@ -75,16 +75,16 @@ export function day9(input: string) {
     for (const move of moves) {
         switch (move.direction) {
             case 'U':
-                states[0].applyMove(new Vector(0, 1), move.distance);
+                states[0].applyMove(new Vector(0, 1), move.manhattan);
                 break;
             case 'D':
-                states[0].applyMove(new Vector(0, -1), move.distance);
+                states[0].applyMove(new Vector(0, -1), move.manhattan);
                 break;
             case 'L':
-                states[0].applyMove(new Vector(-1), move.distance);
+                states[0].applyMove(new Vector(-1), move.manhattan);
                 break;
             case 'R':
-                states[0].applyMove(new Vector(1), move.distance);
+                states[0].applyMove(new Vector(1), move.manhattan);
                 break;
         }
         // printState(move, states);

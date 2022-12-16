@@ -12,12 +12,12 @@ class State {
     distance: number;
 
     constructor(readonly position: Vector, readonly previousState?: State) {
-        this.distance = previousState ? previousState.distance + 1 : 0;
+        this.distance = previousState ? previousState.manhattan + 1 : 0;
     }
 
     setDistances(map: Location[][]) {
         this.previousState?.setDistances(map);
-        this.position.lookup(map).distance = this.distance;
+        this.position.lookup(map).distance = this.manhattan;
     }
 }
 
@@ -47,7 +47,7 @@ function distanceFrom(startState: State, map: Location[][]) {
 
         if (location.height === 'E') {
             state.setDistances(map);
-            return state.distance;
+            return state.manhattan;
         }
 
         if (state.position.x > 0) {
@@ -75,7 +75,7 @@ export function day12(input: string) {
     const part1Start = new State(new Vector(startX, startY));
     const part1 = distanceFrom(part1Start, map);
     console.log(map.map(row => row.map(loc => loc.height + ':' +
-        ((loc.distance || '') + '   ').slice(0, 3) || '   ').join(' ')).join('\n'));
+        ((loc.manhattan || '') + '   ').slice(0, 3) || '   ').join(' ')).join('\n'));
 
     const distances = [part1];
     map.forEach((row, y) => {
@@ -89,7 +89,7 @@ export function day12(input: string) {
                 const distance = distanceFrom(new State(new Vector(x, y)), map);
 
                 console.log(map.map(row => row.map(loc => loc.height + ':' +
-                    ((loc.distance || '') + '   ').slice(0, 3) || '   ').join(' ')).join('\n'));
+                    ((loc.manhattan || '') + '   ').slice(0, 3) || '   ').join(' ')).join('\n'));
 
                 if (distance) {
                     distances.push(distance);

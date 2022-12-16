@@ -1,10 +1,10 @@
 import { int } from './lib/util';
 
-function contains([a, b]: number[], [c, d]: number[]): boolean {
+export function contains([a, b]: number[], [c, d]: number[]): boolean {
     return a <= c && b >= d;
 }
 
-function overlap([a, b]: number[], [c, d]: number[]): boolean {
+export function overlap([a, b]: number[], [c, d]: number[]): boolean {
     return (a <= c && b >= c) || (a >= c && a <= d);
 }
 

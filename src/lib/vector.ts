@@ -31,4 +31,9 @@ export class Vector {
     clamp(min: number, max: number) {
         return new Vector(clamp(this.x, min, max), clamp(this.y, min, max))
     }
+
+    manhattan(to: Vector) {
+        const dv = to.sub(this).abs();
+        return dv.x + dv.y;
+    }
 }
