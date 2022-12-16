@@ -18,7 +18,7 @@ Sensor at x=16, y=7: closest beacon is at x=15, y=3
 Sensor at x=14, y=3: closest beacon is at x=15, y=3
 Sensor at x=20, y=1: closest beacon is at x=15, y=3
 `, 10, 20);
-    expect(result).toEqual([26, 93]);
+    expect(result).toEqual([26, 56000011]);
 });
 
 test('Puzzle input', () => {
