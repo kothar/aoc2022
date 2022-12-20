@@ -1,4 +1,4 @@
-import { int, max, sum } from './lib/util';
+import { clamp, int, max, sum } from './lib/util';
 
 type State = {
     timeRemaining: number,
@@ -36,27 +36,43 @@ function hasResources(state: State, blueprint: Resources) {
         ((state.resources.geode ?? 0) >= (blueprint.geode ?? 0))
 }
 
-function scoreState(state: State): State {
-    let score = 0;
-    score += (state.robots.ore ?? 0) * 1;
-    score += (state.robots.clay ?? 0) * 2;
-    score += (state.robots.obsidian ?? 0) * 3;
-    score += (state.robots.geode ?? 0) * state.timeRemaining * 4;
-    score += (state.resources.ore ?? 0) * 0.1;
-    score += (state.resources.clay ?? 0) * 0.2;
-    score += (state.resources.obsidian ?? 0) * 0.3;
-    score += (state.resources.geode ?? 0) * 4;
-    state.score = score;
-    return state;
-}
 
 class Blueprint {
+    private readonly requiredTotals: Resources;
+
+    private requiredRatios: Resources;
+
     constructor(
         readonly id: number,
         readonly ore: { ore: number },
         readonly clay: { ore: number },
         readonly obsidian: { ore: number, clay: number },
         readonly geode: { ore: number, obsidian: number }) {
+
+        this.requiredTotals = {
+            obsidian: geode.obsidian,
+            clay: geode.obsidian * obsidian.clay,
+            ore: geode.ore + geode.obsidian * (obsidian.ore + obsidian.clay * clay.ore)
+        };
+        const totalCount = sum(Object.values(this.requiredTotals));
+        this.requiredRatios = Object.fromEntries(Object.entries(this.requiredTotals).map(([key, value]) => [key, value / totalCount]));
+    }
+
+    scoreState(state: State): State {
+        let score = 0;
+        // score += (state.robots.geode ?? 0) * state.timeRemaining * 100;
+        // score += (state.resources.geode ?? 0) * 100;
+        //
+        // score += clamp(state.resources.ore ?? 0, this.requiredTotals.ore);
+        // score += clamp(state.resources.clay ?? 0, this.requiredTotals.clay);
+        // score += clamp(state.resources.obsidian ?? 0, this.requiredTotals.obsidian);
+        //
+        // score += ((state.robots.ore ?? 0) * state.timeRemaining - state.resources.ore) * this.requiredRatios.ore;
+        // score += ((state.robots.clay ?? 0) * state.timeRemaining - state.resources.clay) * this.requiredRatios.clay;
+        // score += ((state.robots.obsidian ?? 0) * state.timeRemaining - state.resources.obsidian) * this.requiredRatios.obsidian;
+
+        state.score = score;
+        return state;
     }
 
     getMaxGeodes(minutes: number) {
@@ -89,16 +105,19 @@ class Blueprint {
             if (nextState.timeRemaining <= 0) {
                 maxGeodes = Math.max(maxGeodes, nextState.resources.geode ?? 0);
                 continue
-            } else if (nextState.resources.geode + nextState.timeRemaining < maxGeodes) {
+            } else if (nextState.resources.geode +
+                nextState.timeRemaining * nextState.robots.geode +
+                nextState.timeRemaining * nextState.timeRemaining
+                < maxGeodes) {
                 pruned += 1;
                 continue;
             }
 
-            states.push(scoreState(nextState));
+            states.push(this.scoreState(nextState));
             for (const robot of resourceKeys) {
                 let blueprint = this[robot];
                 if (hasResources(state, blueprint)) {
-                    states.push(scoreState({
+                    states.push(this.scoreState({
                         ...nextState,
                         resources: subResources(nextState.resources, blueprint),
                         robots: {
